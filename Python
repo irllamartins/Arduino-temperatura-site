@@ -1,0 +1,25 @@
+import requests
+import time
+from datetime import datetime
+contador =0
+while (True):#limita a quantidade de vez para compilar
+ contador = contador + 1
+
+ import serial
+ valorserial = serial.Serial('COM4',9600)#Captura os dados da porta serial
+ valor= valorserial.read(5)
+ valor =str(valor)
+ valor=valor[1:7]#o parametro para deixar visivel
+ data_e_hora_atuais = datetime.now()#captura a data e hora atual
+ data_e_hora_em_texto = data_e_hora_atuais.strftime('%d/%m/%Y %H:%M')
+ r = requests.get("https://script.google.com/macros/s/AKfycbznrE5ykPngUgZm7JIQBeEgCMlp_oCGKni49hwQuKBD1IfJLNg/exec?temperatura="+valor+"°C [{}]".format( data_e_hora_em_texto))#link que referenvia do publicado
+ valorserial.close()
+ time.sleep(60)#limita tempo em segundos
+    
+ print (r.headers['content-type'])
+ print (r.text)
+
+#https://cadernodelaboratorio.com.br/2017/08/11/comunicacao-serial-pc-arduino-em-python/
+#https://www.instructables.com/id/Arduino-Python-Communication-via-USB/
+#Data e horas https://forum.arduino.cc/index.php?topic=197713.0
+
